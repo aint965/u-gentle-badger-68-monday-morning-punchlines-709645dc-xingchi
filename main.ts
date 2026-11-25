@@ -20,11 +20,21 @@ import { mkdirSync, writeFileSync } from "node:fs";
 //      (the work week starting), the triple "decline, reschedule, or
 //      mute" builds the trap, and "before I've agreed to exist" is the
 //      surprise turn — existential, not a complaint.
-// Revision round: first draft said "the one meeting" and "before I've
-// even agreed to exist". "only" is sharper than "one", and dropping
-// "even" removes a wasted word, so every word now does work.
+// Revision round: the v1 punchline, "it starts before I've agreed to
+// exist", was only an existential shrug — a meeting starting is not a
+// penalty, so the joke ended on a quip instead of a laugh. The fix
+// makes the meeting do what meetings do: mark attendance. "It marks
+// me late before I've agreed to exist" keeps the absurd turn and adds
+// the sting — punished for a meeting you never consented to attend —
+// so the punchline lands instead of trailing off.
 const joke =
-  "Monday morning is the only meeting I can't decline, reschedule, or mute \u2014 and it starts before I've agreed to exist.";
+  "Monday morning is the only meeting I can't decline, reschedule, or mute \u2014 and it marks me late before I've agreed to exist.";
+
+// Gate guard: the sealed scorer only accepts 1-200 non-whitespace
+// characters, so fail loudly here instead of writing an invalid entry.
+if (joke.length < 1 || joke.length > 200 || joke.trim().length === 0) {
+  throw new Error(`joke must be 1-200 characters, got ${joke.length}`);
+}
 
 mkdirSync("/output", { recursive: true });
 writeFileSync("/output/entry.txt", joke, "utf8");
